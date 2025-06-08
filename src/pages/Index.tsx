@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { History } from 'lucide-react';
+import { History, Sparkles } from 'lucide-react';
 import InputForm from '../components/InputForm';
 import ResultCards from '../components/ResultCards';
 import HistoryModal from '../components/HistoryModal';
@@ -10,7 +10,7 @@ import { useGeminiAPI } from '../hooks/useGeminiAPI';
 import { storage } from '../utils/storage';
 
 const Index = () => {
-  const [currentScreen, setCurrentScreen] = useState('input'); // 'input', 'loading', 'result'
+  const [currentScreen, setCurrentScreen] = useState('input');
   const [inputData, setInputData] = useState(null);
   const [generatedContent, setGeneratedContent] = useState(null);
   const [showHistory, setShowHistory] = useState(false);
@@ -26,7 +26,6 @@ const Index = () => {
       setGeneratedContent(content);
       setCurrentScreen('result');
       
-      // Salvar automaticamente no histórico
       storage.saveLearning({
         inputData: formData,
         generatedContent: content
@@ -46,7 +45,6 @@ const Index = () => {
         setGeneratedContent(content);
         setCurrentScreen('result');
         
-        // Salvar nova versão
         storage.saveLearning({
           inputData,
           generatedContent: content
@@ -76,14 +74,14 @@ const Index = () => {
         
         {/* Header com botão de histórico */}
         {currentScreen === 'input' && (
-          <div className="flex justify-end mb-6">
+          <div className="flex justify-end mb-8">
             <Button
               variant="outline"
               onClick={() => setShowHistory(true)}
-              className="space-x-2 glass-effect border-white/30"
+              className="space-x-2 bg-white border-blue-soft hover:bg-blue-50 shadow-blue"
             >
               <History className="w-4 h-4" />
-              <span>Histórico</span>
+              <span>Histórico de Learnings</span>
             </Button>
           </div>
         )}
@@ -95,7 +93,7 @@ const Index = () => {
 
         {currentScreen === 'loading' && (
           <div className="max-w-2xl mx-auto">
-            <LoadingSpinner message="Gerando seu micro-learning personalizado..." />
+            <LoadingSpinner message="Criando seu micro-learning personalizado..." />
           </div>
         )}
 
@@ -115,9 +113,12 @@ const Index = () => {
           onLoadLearning={handleLoadFromHistory}
         />
 
-        {/* Footer */}
-        <footer className="text-center mt-16 text-sm text-gray-500">
-          <p>MicroLearn AI - Aprendizado personalizado powered by IA</p>
+        {/* Footer moderno */}
+        <footer className="text-center mt-20 py-8">
+          <div className="flex items-center justify-center space-x-2 text-gray-600">
+            <Sparkles className="w-4 h-4 text-blue-500" />
+            <span className="text-sm">MicroLearn AI - Transformando desafios em oportunidades</span>
+          </div>
         </footer>
       </div>
     </div>
