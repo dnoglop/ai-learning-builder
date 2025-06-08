@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { History, Sparkles } from 'lucide-react';
+import { History, Sparkles, Zap, Brain, Target } from 'lucide-react';
 import InputForm from '../components/InputForm';
 import ResultCards from '../components/ResultCards';
 import HistoryModal from '../components/HistoryModal';
@@ -69,58 +69,109 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="container mx-auto">
-        
-        {/* Header com botão de histórico */}
+    <div className="min-h-screen">
+      {/* Header Premium */}
+      <header className="glass-header border-b border-white/20 sticky top-0 z-50 backdrop-blur-xl">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                <Brain className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">MicroLearn AI</h1>
+                <p className="text-blue-100 text-sm">Powered by Advanced AI</p>
+              </div>
+            </div>
+            
+            {currentScreen === 'input' && (
+              <Button
+                variant="outline"
+                onClick={() => setShowHistory(true)}
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+              >
+                <History className="w-4 h-4 mr-2" />
+                Histórico
+              </Button>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-6 py-12">
         {currentScreen === 'input' && (
-          <div className="flex justify-end mb-8">
-            <Button
-              variant="outline"
-              onClick={() => setShowHistory(true)}
-              className="space-x-2 bg-white border-blue-soft hover:bg-blue-50 shadow-blue"
-            >
-              <History className="w-4 h-4" />
-              <span>Histórico de Learnings</span>
-            </Button>
+          <div className="animate-fade-in-up">
+            <InputForm onSubmit={handleFormSubmit} isLoading={isLoading} />
           </div>
         )}
 
-        {/* Telas principais */}
-        {currentScreen === 'input' && (
-          <InputForm onSubmit={handleFormSubmit} isLoading={isLoading} />
-        )}
-
         {currentScreen === 'loading' && (
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto animate-scale-in">
             <LoadingSpinner message="Criando seu micro-learning personalizado..." />
           </div>
         )}
 
         {currentScreen === 'result' && inputData && generatedContent && (
-          <ResultCards
-            inputData={inputData}
-            generatedContent={generatedContent}
-            onGenerateNew={handleGenerateNew}
-            onBack={handleBackToForm}
-          />
+          <div className="animate-fade-in-up">
+            <ResultCards
+              inputData={inputData}
+              generatedContent={generatedContent}
+              onGenerateNew={handleGenerateNew}
+              onBack={handleBackToForm}
+            />
+          </div>
         )}
 
-        {/* Modal de histórico */}
         <HistoryModal
           isOpen={showHistory}
           onClose={() => setShowHistory(false)}
           onLoadLearning={handleLoadFromHistory}
         />
+      </main>
 
-        {/* Footer moderno */}
-        <footer className="text-center mt-20 py-8">
-          <div className="flex items-center justify-center space-x-2 text-gray-600">
-            <Sparkles className="w-4 h-4 text-blue-500" />
-            <span className="text-sm">MicroLearn AI - Transformando desafios em oportunidades</span>
+      {/* Footer Premium */}
+      <footer className="mt-20 py-16 border-t border-slate-200/50">
+        <div className="container mx-auto px-6">
+          <div className="text-center space-y-8">
+            <div className="flex items-center justify-center space-x-8">
+              <div className="flex items-center space-x-3 text-slate-600">
+                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold text-slate-900">Rápido</div>
+                  <div className="text-sm">Resultados em segundos</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-3 text-slate-600">
+                <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center">
+                  <Target className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold text-slate-900">Personalizado</div>
+                  <div className="text-sm">Para sua situação específica</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-3 text-slate-600">
+                <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold text-slate-900">Inteligente</div>
+                  <div className="text-sm">Powered by AI</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-center space-x-2 text-slate-500">
+              <Brain className="w-5 h-5 text-blue-500" />
+              <span className="text-sm font-medium">MicroLearn AI - Transformando desafios em oportunidades de crescimento</span>
+            </div>
           </div>
-        </footer>
-      </div>
+        </div>
+      </footer>
     </div>
   );
 };
